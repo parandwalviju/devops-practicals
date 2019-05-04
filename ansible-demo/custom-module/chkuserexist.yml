@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: check user exists
+      action: chkuser username=root
+      register: chkuser_output
+
+    - debug: var=chkuser_output

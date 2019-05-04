@@ -1,0 +1,19 @@
+---
+- hosts: server #group name from the inventory
+  user: ec2-user Server Auth
+  sudo: true
+
+  vars:
+    pack_name: httpd
+
+  tasks:
+    - name: Install {{ pack_name }}
+      yum: pkg={{ pack_name }} state=latest
+
+    - name: Verify Service Status
+      shell: systemctl status httpd
+      register: result
+      until: result.stdout.find("active (running)") != -1
+      retries: 5
+      delay: 5
+...

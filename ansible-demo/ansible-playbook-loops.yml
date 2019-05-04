@@ -1,0 +1,14 @@
+---
+- hosts: server #group name of the inventory
+  user: ec2-user Server Auth
+  sudo: true
+
+  tasks:
+    - name: Add a list of user
+      user: name={{ item }} state=present
+      with_items:
+        - user1
+        - user2
+        - user3
+        - user4
+...

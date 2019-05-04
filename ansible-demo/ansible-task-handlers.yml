@@ -1,0 +1,20 @@
+---
+- hosts: server #group name from the inventory
+  user: ec2-user Server Auth
+  sudo: true
+
+  vars:
+    pack_name: httpd
+
+  tasks:
+    - name: Remove {{ pack_name }}
+      yum: pkg={{ pack_name }} state=absent
+
+    - name: Install {{ pack_name }}
+      yum: pkg={{ pack_name }} state=installed
+      notify: Restart HTTPD
+
+  handlers:
+    - name: Restart HTTPD
+      action: service name=httpd state=restarted
+...

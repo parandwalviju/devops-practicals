@@ -1,0 +1,31 @@
+---
+- hosts: server #group name from the inventory
+  user: ec2-user Server Auth
+  sudo: true
+
+  tasks:
+    - name: Remove httpd redhat
+      yum: name=httpd state=absent
+      when: ansible_distribution =="RedHat"
+ 
+    - name: Remove httpd ubuntu
+      yum: name=httpd state=absent
+      when: ansible_distribution =="Ubuntu"
+
+    - name: Install httpd redhat
+      yum: name=httpd state=installed
+      when: ansible_distribution =="RedHat"
+  
+    - name: Install httpd ubuntu
+      yum: name=httpd state=installed
+      when: ansible_distribution =="Ubuntu"
+
+    - name: Start httpd Service
+      service: name=httpd state=started
+      when: ansible_distribution =="RdHat"
+
+    - name: Start httpd Service
+      service: name=httpd state=started
+      when: ansible_distribution =="Ubuntu"
+
+

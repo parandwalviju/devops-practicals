@@ -1,0 +1,19 @@
+from ansible.module_utils.basic import*
+
+def is_user_exist(username):
+  try:
+    import pwd
+    return (username in [entry.pw_name in for entry in pwd.getpwall()])
+  except:
+    module.fail_json(msg="Module pwd not found.")
+
+def main():
+  module = AnsibleModule(argument_spec = dict(username = dict(required=True)))
+  username = module.params("username")
+
+  exists = is_user_exist(username)
+  module.exist_json(changed=True, msg="User not found")
+
+
+main()
+
